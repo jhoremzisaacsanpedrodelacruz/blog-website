@@ -1,10 +1,33 @@
 const { Pool } = require('pg');
 
+const rawConnectionString = process.env.DATABASE_URL;
+
+// pg prints a deprecation warning for URLs that use sslmode=require/prefer/verify-ca.
+// TLS is configured explicitly below, so remove the parameter and keep the logs quiet.
+function withoutSslMode(url) {
+  if (!url) return url;
+  try {
+    const parsed = new URL(url);
+    parsed.searchParams.delete('sslmode');
+    return parsed.toString();
+  } catch {
+    return url;
+  }
+}
+
+function isLocalHost(url) {
+  if (!url) return true;
+  try {
+    const host = new URL(url).hostname;
+    return host === 'localhost' || host === '127.0.0.1' || host === '::1';
+  } catch {
+    return false;
+  }
+}
+
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('sslmode=require')
-    ? { rejectUnauthorized: false }
-    : false,
+  connectionString: withoutSslMode(rawConnectionString),
+  ssl: isLocalHost(rawConnectionString) ? false : { rejectUnauthorized: false },
 });
 
 async function setup() {

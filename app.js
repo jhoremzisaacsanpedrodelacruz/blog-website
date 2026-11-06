@@ -60,7 +60,7 @@ app.use((err, req, res, next) => {
 setup()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`My Board is running at http://localhost:${PORT}`);
+      console.log(`Jhoremz's Blog Board is running at http://localhost:${PORT}`);
     });
   })
   .catch((err) => {

@@ -14,8 +14,22 @@ app.use(express.urlencoded({ extended: false, limit: '64kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.locals.siteName = "Jhoremz's Blog Board";
-app.locals.formatDate = (value) =>
-  new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
+
+// Display times in Philippine Time (GMT+8), regardless of where the server runs.
+// Render's servers use UTC, so without an explicit zone everything looked 8 hours off.
+const siteTimeZone = process.env.SITE_TIME_ZONE || 'Asia/Manila';
+const dateFormatter = new Intl.DateTimeFormat('en-PH', {
+  timeZone: siteTimeZone,
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: '2-digit',
+  hour12: true,
+  timeZoneName: 'short',
+});
+
+app.locals.formatDate = (value) => dateFormatter.format(new Date(value));
 app.locals.excerpt = (text) => {
   const flat = String(text).replace(/\s+/g, ' ').trim();
   return flat.length > 220 ? `${flat.slice(0, 220).trimEnd()}…` : flat;

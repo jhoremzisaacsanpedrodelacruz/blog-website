@@ -1,64 +1,55 @@
-<%- include('partials/header', { title: null, active: 'home' }) %>
+<%- include('partials/header', { title: 'Getting to Know Me', active: 'home' }) %>
 
-<section class="hero">
-  <h1>Write it down.<br>Someone might answer.</h1>
-  <div class="hero-aside">
-    <p>A noticeboard for short thoughts. Post under any name, no account needed.</p>
-    <a href="#compose">Start a post</a>
-  </div>
-</section>
+<article class="blog">
+  <header class="blog-header">
+    <h1>Getting to Know Me</h1>
+    <p class="blog-lead">Hello! Welcome to my little corner of the internet!</p>
+  </header>
 
-<div class="board">
-  <aside class="composer" id="compose">
-    <div class="note-pad">
-      <span class="tape" aria-hidden="true"></span>
-      <h2>Start a post</h2>
-      <p class="note-help">Keep it short and kind. Use any name you like.</p>
+  <p class="blog-opening">I'm a college student currently taking up Bachelor of Science in Computer Science (BSCS). I'm someone who enjoys learning, exploring new ideas, and discovering how things work. I have always been curious about technology, especially how computers, software, and applications are created.</p>
 
-      <% if (error) { %>
-        <p class="alert" role="alert"><%= error %></p>
-      <% } %>
-
-      <form method="post" action="/posts">
-        <label>Title
-          <input name="title" maxlength="120" required value="<%= values.title || '' %>">
-        </label>
-        <label>Your name
-          <input name="author" maxlength="40" required value="<%= values.author || '' %>">
-        </label>
-        <label>Message
-          <textarea name="body" maxlength="2000" required><%= values.body || '' %></textarea>
-        </label>
-
-        <button class="btn" type="submit">Post it</button>
-      </form>
-    </div>
-  </aside>
-
-  <section class="posts" aria-labelledby="posts-heading">
-    <div class="board-head">
-      <h2 id="posts-heading">On the board</h2>
-      <span><%= posts.length %> <%= posts.length === 1 ? 'post' : 'posts' %></span>
-    </div>
-
-    <% if (posts.length === 0) { %>
-      <div class="empty">
-        <p>Nothing pinned up yet.</p>
-        <p>Your post could be the first one.</p>
-      </div>
-    <% } else { %>
-      <% posts.forEach((post) => { %>
-        <article class="post-slip">
-          <h3><a href="/posts/<%= post.id %>"><%= post.title %></a></h3>
-          <p class="excerpt"><%= excerpt(post.body) %></p>
-          <p class="post-meta">
-            <span>by <strong><%= post.author %></strong> on <time datetime="<%= post.created_at.toISOString() %>"><%= formatDate(post.created_at) %></time></span>
-            <a href="/posts/<%= post.id %>#comments"><%= post.comment_count %> <%= post.comment_count === 1 ? 'comment' : 'comments' %></a>
-          </p>
-        </article>
-      <% }) %>
-    <% } %>
+  <section class="blog-section">
+    <h2>My Journey</h2>
+    <p>My journey in Computer Science has been an interesting experience. Along the way, I've learned different programming concepts, explored various technologies, and faced challenges that helped me become a better learner.</p>
+    <p>I'm still in the process of discovering what I'm truly capable of, but I enjoy every opportunity to improve myself. Whether it's writing my first lines of code, fixing errors, or building small projects, I see every experience as a step toward something bigger.</p>
   </section>
-</div>
+
+  <section class="blog-section">
+    <h2>My Interests and Hobbies</h2>
+    <p>I have a strong interest in technology and everything related to computers. Some of the things I enjoy exploring include:</p>
+    <ul class="blog-list">
+      <li><strong>Programming:</strong> Learning different programming languages and understanding how software works.</li>
+      <li><strong>Web Development:</strong> Creating websites and experimenting with different designs and functionalities.</li>
+      <li><strong>Game Development:</strong> Exploring how games are designed, developed, and brought to life.</li>
+      <li><strong>Technology:</strong> Keeping myself curious about new innovations, tools, and digital trends.</li>
+      <li><strong>Personal Growth:</strong> Learning new skills, challenging myself, and becoming a better version of myself.</li>
+    </ul>
+    <p>Aside from technology, I also enjoy spending time discovering new hobbies and trying things that allow me to grow as a person.</p>
+  </section>
+
+  <section class="blog-section">
+    <h2>My Goals and Dreams</h2>
+    <p>One of my biggest goals is to become someone who is skilled, independent, and capable of creating something meaningful through technology.</p>
+    <p>I want to continue improving my programming skills, work on bigger projects, gain real-world experience, and eventually build something of my own.</p>
+    <p>I also believe that success isn't just about having a good career or earning money. It's about having the freedom to make decisions, supporting the people who matter, enjoying life, and being proud of the person I become.</p>
+  </section>
+
+  <section class="blog-section">
+    <h2>A Little Philosophy</h2>
+    <p>I believe that everyone starts somewhere, and nobody becomes successful overnight.</p>
+    <p>There are still countless things I don't know, skills I haven't learned, and experiences I haven't encountered. Instead of seeing that as a weakness, I see it as an opportunity.</p>
+    <p>I don't expect to have everything figured out right now. I just want to keep moving forward, stay curious, and make the most out of every opportunity that comes my way.</p>
+  </section>
+
+  <section class="blog-section">
+    <h2>Welcome to My Blog!</h2>
+    <p>This website is more than just a personal webpage. It's a place where I can share my thoughts, experiences, interests, and discoveries.</p>
+    <p>You might find posts about technology, programming, personal experiences, things I'm learning, or simply random thoughts I want to share.</p>
+    <p>Thank you for taking the time to visit. I hope you enjoy exploring my website and getting to know a little more about me!</p>
+  </section>
+
+  <p class="blog-closing">Keep learning, keep exploring, and keep moving forward.</p>
+  <p class="blog-note">There is also an <a href="/board">open board</a> on this site if you want to leave a post or comment.</p>
+</article>
 
 <%- include('partials/footer') %>

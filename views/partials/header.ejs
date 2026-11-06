@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title ? `${title} · ${siteName}` : `${siteName} · An open board` %></title>
+  <meta name="description" content="A personal blog with an open board and a public api for museum search.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header">
+    <a class="brand" href="/">Jhoremz's Blog Board</a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="/" <%= active === 'home' ? 'aria-current="page"' : '' %>>Home</a>
+      <a href="/board" <%= active === 'board' ? 'aria-current="page"' : '' %>>Board</a>
+      <a href="/museum" <%= active === 'museum' ? 'aria-current="page"' : '' %>>Museum</a>
+      <a href="/about" <%= active === 'about' ? 'aria-current="page"' : '' %>>About</a>
+    </nav>
+  </header>
+
+  <main class="wrap" id="content">

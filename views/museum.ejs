@@ -1,0 +1,37 @@
+<%- include('partials/header', { title: 'Museum', active: 'museum' }) %>
+
+<h1>Museum</h1>
+<p class="intro">Search the Art Institute of Chicago's open collection of more than 120,000 works.</p>
+
+<form class="search" method="get" action="/museum">
+  <label class="sr-only" for="art-query">Search artworks</label>
+  <input id="art-query" type="search" name="q" value="<%= query %>" placeholder="Try rain, blue, or Hokusai">
+  <button class="btn" type="submit">Search</button>
+</form>
+
+<% if (error) { %>
+  <p class="alert" role="alert"><%= error %></p>
+<% } else if (artworks.length === 0) { %>
+  <p class="muted">No works matched “<%= query %>”. Try a broader word.</p>
+<% } else { %>
+  <p class="meta"><%= artworks.length %> works for “<%= query %>”. <%= total.toLocaleString('en-US') %> in the collection.</p>
+
+  <section class="art-grid" aria-label="Artwork results">
+    <% artworks.forEach((art) => { %>
+      <a class="art" href="https://www.artic.edu/artworks/<%= art.id %>" target="_blank" rel="noreferrer">
+        <% if (art.image) { %>
+          <img src="<%= art.image %>" alt="<%= art.title %>" loading="lazy">
+        <% } else { %>
+          <span class="art-placeholder">No image</span>
+        <% } %>
+        <h3><%= art.title %></h3>
+        <p><%= art.artist_display || 'Unknown artist' %></p>
+        <p><%= [art.date_display, art.department_title].filter(Boolean).join(', ') %></p>
+      </a>
+    <% }) %>
+  </section>
+
+  <p class="credit">Artwork data and images from the <a href="https://www.artic.edu/" target="_blank" rel="noreferrer">Art Institute of Chicago</a>.</p>
+<% } %>
+
+<%- include('partials/footer') %>

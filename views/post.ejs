@@ -1,0 +1,45 @@
+<%- include('partials/header', { title: post.title, active: 'home' }) %>
+
+<a class="back-link" href="/">Back to posts</a>
+
+<article class="post-page">
+  <h1><%= post.title %></h1>
+  <p class="meta">by <strong><%= post.author %></strong> on <time datetime="<%= post.created_at.toISOString() %>"><%= formatDate(post.created_at) %></time></p>
+  <div class="body"><%= post.body %></div>
+</article>
+
+<section class="section" id="comments">
+  <h2>Comments (<%= comments.length %>)</h2>
+
+  <% if (comments.length === 0) { %>
+    <p class="muted">No comments yet.</p>
+  <% } else { %>
+    <% comments.forEach((comment) => { %>
+      <article class="comment">
+        <p class="meta"><strong><%= comment.author %></strong> on <time datetime="<%= comment.created_at.toISOString() %>"><%= formatDate(comment.created_at) %></time></p>
+        <p class="comment-body"><%= comment.body %></p>
+      </article>
+    <% }) %>
+  <% } %>
+</section>
+
+<section class="section">
+  <h2>Add a comment</h2>
+
+  <% if (error) { %>
+    <p class="alert" role="alert"><%= error %></p>
+  <% } %>
+
+  <form method="post" action="/posts/<%= post.id %>/comments">
+    <label>Your name
+      <input name="author" maxlength="40" required value="<%= values.author || '' %>">
+    </label>
+    <label>Comment
+      <textarea name="body" maxlength="1000" required><%= values.body || '' %></textarea>
+    </label>
+
+    <button class="btn" type="submit">Comment</button>
+  </form>
+</section>
+
+<%- include('partials/footer') %>

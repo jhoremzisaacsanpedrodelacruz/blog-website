@@ -13,7 +13,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: false, limit: '64kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.locals.siteName = 'My Board';
+app.locals.siteName = "Jhoremz's Blog Board";
 app.locals.formatDate = (value) =>
   new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value));
 app.locals.excerpt = (text) => {

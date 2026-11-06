@@ -1,0 +1,44 @@
+<%- include('partials/header', { title: 'About & API', active: 'about' }) %>
+
+<h1>About</h1>
+<p class="intro">This site is a personal blog, with an open board and a museum search built in.</p>
+
+<section class="section">
+  <h2>The board</h2>
+  <p>The <a href="/board">board</a> is open to anyone. Write a title, sign it with any name, and post. New posts go to the top, and each post has its own page for comments.</p>
+  <p>Posts are public. There are no profiles, likes, or notifications.</p>
+</section>
+
+<section class="section">
+  <h2>Museum page</h2>
+  <p>The <a href="/museum">Museum</a> page searches the public collection of the Art Institute of Chicago. Their API is free, needs no key, and returns real artwork data and images.</p>
+</section>
+
+<section class="section">
+  <h2>Public API</h2>
+  <p>Exposed Public API for getting a posts info and details. C:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Endpoint</th><th>Returns</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>GET /api/public/posts</code></td>
+          <td>All posts with id, title, author, createdAt, and commentCount.</td>
+        </tr>
+        <tr>
+          <td><code>GET /api/public/posts/:id</code></td>
+          <td>One post with its body and comments.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pre><code>fetch('/api/public/posts')
+  .then((res) =&gt; res.json())
+  .then((posts) =&gt; console.log(posts));</code></pre>
+</section>
+
+<%- include('partials/footer') %>

@@ -48,10 +48,17 @@ async function listComments(postId) {
   return rows;
 }
 
-router.get('/', async (req, res) => {
+router.get('/', (req, res) => {
   res.render('home', {
-    title: null,
+    title: 'Getting to Know Me',
     active: 'home',
+  });
+});
+
+router.get('/board', async (req, res) => {
+  res.render('board', {
+    title: 'Board',
+    active: 'board',
     posts: await listPosts(),
     error: null,
     values: {},
@@ -74,9 +81,9 @@ router.post('/posts', async (req, res) => {
     res.redirect(`/posts/${rows[0].id}`);
   } catch (err) {
     if (!(err instanceof ValidationError)) throw err;
-    res.status(400).render('home', {
-      title: null,
-      active: 'home',
+    res.status(400).render('board', {
+      title: 'Board',
+      active: 'board',
       posts: await listPosts(),
       error: err.message,
       values,
@@ -90,7 +97,7 @@ router.get('/posts/:id', async (req, res, next) => {
 
   res.render('post', {
     title: post.title,
-    active: 'home',
+    active: 'board',
     post,
     comments: await listComments(post.id),
     error: null,
@@ -121,7 +128,7 @@ router.post('/posts/:id/comments', async (req, res, next) => {
     if (!(err instanceof ValidationError)) throw err;
     res.status(400).render('post', {
       title: post.title,
-      active: 'home',
+      active: 'board',
       post,
       comments: await listComments(post.id),
       error: err.message,

@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 
     artworks = (data.data || []).map((art) => ({
       ...art,
-      image: art.image_id ? `/museum/image/${art.image_id}` : null,
+      image: art.image_id ? `${IMAGE_URL}/${art.image_id}/full/600,/0/default.jpg` : null,
     }));
     total = data.pagination?.total || artworks.length;
   } catch (err) {
@@ -56,10 +56,18 @@ router.get('/image/:id', async (req, res) => {
 
   try {
     const response = await fetch(`${IMAGE_URL}/${id}/full/600,/0/default.jpg`, {
-      headers: { Referer: 'https://www.artic.edu/' },
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36',
+        Accept: 'image/avif,image/webp,image/apng,image/*,*/*;q=0.8',
+        Referer: 'https://www.artic.edu/',
+      },
       signal: AbortSignal.timeout(10000),
     });
-    if (!response.ok) return res.sendStatus(502);
+    if (!response.ok) {
+      console.error(`Museum image ${id} upstream status ${response.status}`);
+      return res.sendStatus(502);
+    }
 
     const image = Buffer.from(await response.arrayBuffer());
     imageCache.set(id, image);

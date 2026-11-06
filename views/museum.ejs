@@ -20,7 +20,7 @@
     <% artworks.forEach((art) => { %>
       <a class="art" href="https://www.artic.edu/artworks/<%= art.id %>" target="_blank" rel="noreferrer">
         <% if (art.image) { %>
-          <img src="<%= art.image %>" alt="<%= art.title %>" loading="lazy">
+          <img src="<%= art.image %>" alt="<%= art.title %>" loading="lazy" referrerpolicy="origin">
         <% } else { %>
           <span class="art-placeholder">No image</span>
         <% } %>
@@ -32,6 +32,19 @@
   </section>
 
   <p class="credit">Artwork data and images from the <a href="https://www.artic.edu/" target="_blank" rel="noreferrer">Art Institute of Chicago</a>.</p>
+
+  <script>
+    document.querySelectorAll('.art img').forEach(function (img) {
+      function fallback() {
+        var span = document.createElement('span');
+        span.className = 'art-placeholder';
+        span.textContent = 'No image';
+        img.replaceWith(span);
+      }
+      img.addEventListener('error', fallback);
+      if (img.complete && img.naturalWidth === 0) fallback();
+    });
+  </script>
 <% } %>
 
 <%- include('partials/footer') %>

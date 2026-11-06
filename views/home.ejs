@@ -1,0 +1,64 @@
+<%- include('partials/header', { title: null, active: 'home' }) %>
+
+<section class="hero">
+  <h1>Write it down.<br>Someone might answer.</h1>
+  <div class="hero-aside">
+    <p>A noticeboard for short thoughts. Post under any name, no account needed.</p>
+    <a href="#compose">Start a post</a>
+  </div>
+</section>
+
+<div class="board">
+  <aside class="composer" id="compose">
+    <div class="note-pad">
+      <span class="tape" aria-hidden="true"></span>
+      <h2>Start a post</h2>
+      <p class="note-help">Keep it short and kind. Use any name you like.</p>
+
+      <% if (error) { %>
+        <p class="alert" role="alert"><%= error %></p>
+      <% } %>
+
+      <form method="post" action="/posts">
+        <label>Title
+          <input name="title" maxlength="120" required value="<%= values.title || '' %>">
+        </label>
+        <label>Your name
+          <input name="author" maxlength="40" required value="<%= values.author || '' %>">
+        </label>
+        <label>Message
+          <textarea name="body" maxlength="2000" required><%= values.body || '' %></textarea>
+        </label>
+
+        <button class="btn" type="submit">Post it</button>
+      </form>
+    </div>
+  </aside>
+
+  <section class="posts" aria-labelledby="posts-heading">
+    <div class="board-head">
+      <h2 id="posts-heading">On the board</h2>
+      <span><%= posts.length %> <%= posts.length === 1 ? 'post' : 'posts' %></span>
+    </div>
+
+    <% if (posts.length === 0) { %>
+      <div class="empty">
+        <p>Nothing pinned up yet.</p>
+        <p>Your post could be the first one.</p>
+      </div>
+    <% } else { %>
+      <% posts.forEach((post) => { %>
+        <article class="post-slip">
+          <h3><a href="/posts/<%= post.id %>"><%= post.title %></a></h3>
+          <p class="excerpt"><%= excerpt(post.body) %></p>
+          <p class="post-meta">
+            <span>by <strong><%= post.author %></strong> on <time datetime="<%= post.created_at.toISOString() %>"><%= formatDate(post.created_at) %></time></span>
+            <a href="/posts/<%= post.id %>#comments"><%= post.comment_count %> <%= post.comment_count === 1 ? 'comment' : 'comments' %></a>
+          </p>
+        </article>
+      <% }) %>
+    <% } %>
+  </section>
+</div>
+
+<%- include('partials/footer') %>

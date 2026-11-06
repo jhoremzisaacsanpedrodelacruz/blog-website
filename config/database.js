@@ -35,9 +35,9 @@ async function setup() {
      ON CONFLICT (id) DO NOTHING`,
     [
       'e694b0ee-91f2-4c79-bd79-6c01900f30e2',
-      'Hello',
-      'Jho',
-      'JHEOEIFOF',
+      'Welcome To My Board!',
+      'Jhoremz Dela Cruz',
+      'Leave a comment at the very Top!',
       '2026-11-04T16:15:36.390Z',
     ]
   );

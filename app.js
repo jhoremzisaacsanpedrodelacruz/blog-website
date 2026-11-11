@@ -15,8 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.locals.siteName = "Jhoremz's Blog Board";
 
-// Display times in Philippine Time (GMT+8), regardless of where the server runs.
-// Render's servers use UTC, so without an explicit zone everything looked 8 hours off.
+// FIX FOR THE TIMEZOME using the USA timezone, need to be GMT + 8 for philippines C:
 const siteTimeZone = process.env.SITE_TIME_ZONE || 'Asia/Manila';
 const dateFormatter = new Intl.DateTimeFormat('en-PH', {
   timeZone: siteTimeZone,
